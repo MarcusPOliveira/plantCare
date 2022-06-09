@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "plantCare",
+    "slug": "plantCare",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
