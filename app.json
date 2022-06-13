@@ -3,6 +3,10 @@
     "name": "plantCare",
     "slug": "plantCare",
     "version": "1.0.0",
+    "splash": {
+      "image": "./assets/Splash.png",
+      "resizeMode": "contain"
+    },
     "assetBundlePatterns": [
       "**/*"
     ]
