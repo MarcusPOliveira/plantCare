@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, View, LogBox } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
@@ -14,6 +14,10 @@ import { Routes } from './src/routes';
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+
+  LogBox.ignoreLogs([
+    'ViewPropTypes will be removed' //Lottie
+  ]);
 
   useEffect(() => {
     async function prepare() {
