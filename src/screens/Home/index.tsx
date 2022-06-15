@@ -57,6 +57,31 @@ export function Home() {
     setFilteredPlants(filtered);
   }
 
+  async function fetchPlants() {
+    const { data } = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`);
+    if (!data) {
+      return setLoading(true);
+    }
+    if (page > 1) {
+      setPlants(oldValue => [...oldValue, ...data]);
+      setFilteredPlants(oldValue => [...oldValue, ...data]);
+    } else {
+      setPlants(data);
+      setFilteredPlants(data);
+    }
+    setLoading(false);
+    setLoadingMore(false);
+  }
+
+  async function handleFetchMore(distance: number) {
+    if (distance < 1) {
+      return;
+    }
+    setLoadingMore(true);
+    setPage(oldValue => oldValue + 1);
+    fetchPlants();
+  }
+
   useEffect(() => {
     async function fetchEnviroment() {
       const { data } = await api.get('plants_environments?_sort=title&_order=asc');
@@ -69,10 +94,6 @@ export function Home() {
       ]);
     }
 
-    async function fetchPlants() {
-      const { data } = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`);
-      setPlants(data);
-    }
     fetchEnviroment();
     fetchPlants();
     setLoading(false);
@@ -106,9 +127,11 @@ export function Home() {
         <PlantsList
           data={filteredPlants}
           numColumns={2}
+          onEndReachedThreshold={0.1}
           renderItem={({ item }) => (
             <PlantCardPrimary data={item} />
           )}
+          onEndReached={({ distanceFromEnd }) => handleFetchMore(distanceFromEnd)}
         />
       </Plants>
     </Container>
