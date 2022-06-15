@@ -6,6 +6,8 @@ export default {
     greenLight: '#DAF2E4',
     alert: '#E83F5B',
     text: '#52665A',
+    blue: '#3D7199',
+    blueLight: '#EBF6FF',
     black: '#000000',
     white: '#FFFFFF',
     gray: '#CFCFCF',

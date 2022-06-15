@@ -10,9 +10,7 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const GreetingsGroup = styled.View`
-  
-`;
+export const GreetingsGroup = styled.View``;
 
 export const Greetings = styled.Text`
   font-family: ${({ theme }) => theme.fonts.text};
@@ -31,4 +29,5 @@ export const Photo = styled.Image`
   width: 70px;
   height: 70px;
   border-radius: 35px;
+  margin-right: 32px;
 `;

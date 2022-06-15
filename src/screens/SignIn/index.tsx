@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Input } from '@components/Input';
 import wateringCanImg from '@assets/wateringCan.png';
@@ -27,10 +29,20 @@ import {
 
 export function SignIn() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
 
   async function handleLogin() {
+    if (!email) {
+      return ToastAndroid.show('O campo email deve ser preenchido!', ToastAndroid.LONG);
+    }
+    /*
+    if (!password) {
+      return ToastAndroid.show('O campo senha deve ser preenchida!', ToastAndroid.LONG);
+    }
+    */
+    await AsyncStorage.setItem('@plantCare:user', email);
     navigation.navigate('home');
   }
 

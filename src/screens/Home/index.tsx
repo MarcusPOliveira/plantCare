@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
+
+import { useTheme } from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
 import api from '../../services/api';
 import { Load } from '@components/Load';
@@ -21,7 +25,7 @@ type EnvironmentProps = {
   title: string;
 }
 
-type PlantProps = {
+export type PlantProps = {
   id: string;
   name: string;
   about: string;
@@ -43,7 +47,9 @@ export function Home() {
   //estados para paginação
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [loadedAll, setLoadedAll] = useState(false);
+
+  const theme = useTheme();
+  const navigation = useNavigation();
 
   function handleEnvironmentSelected(environment: string) {
     setEnvironmentSelected(environment);
@@ -80,6 +86,10 @@ export function Home() {
     setLoadingMore(true);
     setPage(oldValue => oldValue + 1);
     fetchPlants();
+  }
+
+  function handlePlantSelected(plant: PlantProps) {
+    navigation.navigate('plant', { plant });
   }
 
   useEffect(() => {
@@ -126,12 +136,18 @@ export function Home() {
       <Plants>
         <PlantsList
           data={filteredPlants}
+          keyExtractor={(item) => String(item.key)}
           numColumns={2}
           onEndReachedThreshold={0.1}
           renderItem={({ item }) => (
-            <PlantCardPrimary data={item} />
+            <PlantCardPrimary data={item} onPress={() => handlePlantSelected(item)} />
           )}
           onEndReached={({ distanceFromEnd }) => handleFetchMore(distanceFromEnd)}
+          ListFooterComponent={
+            loadingMore
+              ? <ActivityIndicator color={theme.colors.greenLight} />
+              : <></>
+          }
         />
       </Plants>
     </Container>
